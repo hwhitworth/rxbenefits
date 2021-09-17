@@ -5,6 +5,20 @@ import axios from "axios";
 
 export default function Navigation() {
   const { movieFilter, getMovies } = useStore();
+  const NavList = [
+    {
+      title: "Now Playing",
+      filter: "now_playing",
+    },
+    {
+      title: "Top Rated",
+      filter: "top_rated",
+    },
+    {
+      title: "Popular",
+      filter: "popular",
+    },
+  ];
 
   useEffect(() => {
     getMovies(movieFilter);
@@ -21,40 +35,37 @@ export default function Navigation() {
         <Text color="white">RX Beneflix</Text>
       </HStack>
       <HStack color="gray.400">
-        <Text
-          cursor="pointer"
-          p={4}
-          color={movieFilter == "now_playing" ? "green.400" : "white"}
-          _hover={{ color: "green.100" }}
-          onClick={() => {
-            getMovies("now_playing");
-          }}
-        >
-          Now Playing
-        </Text>
-        <Text
-          cursor="pointer"
-          p={4}
-          color={movieFilter == "top_rated" ? "green.400" : "white"}
-          _hover={{ color: "green.100" }}
-          onClick={() => {
-            getMovies("top_rated");
-          }}
-        >
-          Top Rated
-        </Text>
-        <Text
-          cursor="pointer"
-          p={4}
-          color={movieFilter == "popular" ? "green.400" : "white"}
-          _hover={{ color: "green.100" }}
-          onClick={() => {
-            getMovies("popular");
-          }}
-        >
-          Popular
-        </Text>
+        {NavList.map((navItem, i) => {
+          return (
+            <NavLink
+              currentMovieFilter={movieFilter}
+              filterBy={navItem.filter}
+              getMovies={getMovies}
+            >
+              {navItem.title}
+            </NavLink>
+          );
+        })}
       </HStack>
     </Flex>
   );
 }
+
+export const NavLink = ({
+  children,
+  currentMovieFilter,
+  filterBy,
+  getMovies,
+}) => (
+  <Text
+    cursor="pointer"
+    p={4}
+    color={currentMovieFilter == filterBy ? "green.400" : "white"}
+    _hover={{ color: "green.100" }}
+    onClick={() => {
+      getMovies(filterBy);
+    }}
+  >
+    {children}
+  </Text>
+);
