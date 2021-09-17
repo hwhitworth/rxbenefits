@@ -4,16 +4,7 @@ import { useStore } from "../store/store";
 import axios from "axios";
 
 export default function Navigation() {
-  const { movieFilter, setMovies, setMovieFilter } = useStore();
-
-  const getMovies = async function (movieFilter) {
-    setMovieFilter(movieFilter);
-    let movieData = await axios.get("/api/getMovies", {
-      params: { movieFilter: movieFilter },
-    });
-    setMovies(movieData);
-    console.log(movieData);
-  };
+  const { movieFilter, getMovies } = useStore();
 
   useEffect(() => {
     getMovies(movieFilter);

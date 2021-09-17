@@ -8,19 +8,11 @@ import debounce from "lodash.debounce";
 
 export default function Search() {
   const [loading, setLoading] = useState(false);
-  const { movies, setMovies, setMovieFilter } = useStore();
+  const { movies, setMovies, setMovieFilter, getMovies } = useStore();
   const debouncedSearch = useCallback(
     debounce((nextValue) => searchMovies(nextValue), 1000),
     []
   );
-
-  const getMovies = async function (movieFilter) {
-    setMovieFilter(movieFilter);
-    let movieData = await axios.get("/api/getMovies", {
-      params: { movieFilter: movieFilter },
-    });
-    setMovies(movieData);
-  };
 
   const handleChange = (value) => {
     if (value) {

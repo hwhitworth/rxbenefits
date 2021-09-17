@@ -8,19 +8,12 @@ import MovieGrid from "../components/MovieGrid";
 import Search from "../components/Search";
 
 export default function Home() {
-  const { setMovies, setMovieFilter } = useStore();
-
-  const getMovies = async function (movieFilter) {
-    setMovieFilter(movieFilter);
-    let movieData = await axios.get("/api/getMovies", {
-      params: { movieFilter: movieFilter },
-    });
-    setMovies(movieData);
-  };
+  const { getMovies } = useStore();
 
   useEffect(() => {
     getMovies("now_playing");
   }, []);
+
   return (
     <Box>
       <Navigation />

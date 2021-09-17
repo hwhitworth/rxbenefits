@@ -1,5 +1,6 @@
 import create from "zustand";
 import { devtools } from "zustand/middleware";
+import axios from "axios";
 
 export const useStore = create(
   devtools((set) => ({
@@ -8,6 +9,17 @@ export const useStore = create(
     setMovieFilter: (filter) => {
       set({
         movieFilter: filter,
+      });
+    },
+    getMovies: async (movieFilter) => {
+      set({
+        movieFilter: movieFilter,
+      });
+      const movieData = await axios.get("/api/getMovies", {
+        params: { movieFilter: movieFilter },
+      });
+      set({
+        movies: movieData,
       });
     },
     setMovies: (movies) => {
